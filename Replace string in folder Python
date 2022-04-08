@@ -1,0 +1,41 @@
+import os
+import re
+from lxml import etree
+
+def check(file_name , search_what):
+    with open(file_name,'rb') as f:
+        file_content = f.read()
+        file_text = str(file_content)
+        search_for = search_what
+        if search_for  in file_text:
+            return True    
+        else:
+            return False
+
+my_dir = 'D:\\myfolder'
+
+replace_what =  'string to be replaced'
+replace_with ='new strign'
+# loop through all files in directory
+for root, dirs, files in os.walk(my_dir):
+       for x in files:
+           # print(os.path.join(root, x))
+            old_file = os.path.join(root, x)
+           # print(old_file)
+            #check only xml files
+            result = check(old_file , replace_what)
+            print(result)
+            # check in xml files only this if can be removed if you need all files
+            if '.xml' in x and check(old_file , replace_what): 
+              
+                if os.path.isfile(old_file) :
+                    file = open(old_file, 'r+',  encoding="windows-1256")
+
+                    new_file_content=''
+                    for line in file a:
+                        p = re.compile(replace_what)
+                        new_file_content += p.sub(replace_with, line)
+                    file.seek(0)
+                    file.truncate()
+                    file.write(new_file_content)
+                    file.close()
