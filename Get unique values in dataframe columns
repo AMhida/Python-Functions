@@ -1,0 +1,17 @@
+def get_uniue_val (datafr): 
+
+    datafr =datafr.select_dtypes(exclude=['float','int64'])
+    column_list =  datafr
+    
+    df_final =pd.DataFrame()
+    for i in column_list :
+        arr=np.array(datafr[i].unique())
+        df_new =pd.DataFrame()
+        for ar in arr :
+            xx= [{i:ar}]
+
+            df_new=df_new.append(xx, ignore_index=True)
+       # print(df_new)   
+        df_final= pd.concat([df_final,df_new],  axis=1)
+    df_final=df_final.fillna( '--', )        
+    return df_final
